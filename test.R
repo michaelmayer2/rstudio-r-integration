@@ -1,7 +1,7 @@
 # reset libpath to the bare minimum
 .libPaths(paste0(Sys.getenv("R_HOME"),"/library"))
 
-# temporarily install devtools and jsonlite into ./packages/tmp
+# temporarily install requirements for this code into ./packages/tmp
 tmppath="./packages/tmp"
 dir.create(tmppath, recursive=TRUE)
 install.packages(c("RCurl","curl","selectr","tibble", "jsonlite","data.table","rvest","anytime","stringr"),lib = tmppath)
@@ -56,9 +56,10 @@ for (i in seq(1,length(jsondata$packages))) {
   location=jsondata$packages[i][[1]]$location
   source=jsondata$packages[i][[1]]$source
   cat (i, name, version, "\n")
-  mydate<-getpackagetime(name,version)
+  mydate<-format(as.Date(getpackagetime(name,version)))
   mylist <- c(mylist,mydate)
   namelist <- c(namelist, name)
+  print(mylist)
 }
 
 latestdate <- max(mylist[!is.na(mylist)])
